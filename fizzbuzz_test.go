@@ -16,4 +16,11 @@ func TestFizzBuzz(t *testing.T) {
 			t.Fatalf("want '1', got %q", got)
 		}
 	})
+
+	t.Run("It returns '2' given 2", func(t *testing.T) {
+		got := gofizbuzz.FizzBuzz(2)
+		if "2" != got {
+			t.Fatalf("want '2', got %q", got)
+		}
+	})
 }
