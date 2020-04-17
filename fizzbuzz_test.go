@@ -6,10 +6,6 @@ import (
 	"github.com/screwyprof/gofizzbuzz"
 )
 
-// 1) Make it fail. | RED
-// 2) Make it pass. | GREEN
-// 3) Make it good. | Refactor
-
 func TestFizzBuzz(t *testing.T) {
 	testCases := []struct {
 		name string
@@ -21,6 +17,7 @@ func TestFizzBuzz(t *testing.T) {
 		{name: "It returns 'Fizz' given 3", n: 3, want: "Fizz"},
 		{name: "It returns '4' given 4", n: 4, want: "4"},
 		{name: "It returns 'Buzz' given 5", n: 5, want: "Buzz"},
+		{name: "It returns 'FizzBuzz' given 15", n: 15, want: "FizzBuzz"},
 	}
 
 	for _, tc := range testCases {
