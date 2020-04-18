@@ -3,7 +3,6 @@ package gofizbuzz_test
 import "github.com/screwyprof/gofizzbuzz"
 
 func ExampleFizzBuzz() {
-	// Output:
 	gofizbuzz.PrintFizzBuzz()
 
 	// output:
