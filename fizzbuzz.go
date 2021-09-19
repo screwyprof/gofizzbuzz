@@ -1,15 +1,8 @@
 package gofizbuzz
 
 import (
-	"fmt"
 	"strconv"
 )
-
-func PrintFizzBuzz() {
-	for i := 1; i <= 100; i++ {
-		fmt.Println(FizzBuzz(i))
-	}
-}
 
 func FizzBuzz(n int) string {
 	switch {

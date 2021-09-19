@@ -1,14 +1,12 @@
 package gofizbuzz_test
 
 import (
-	"log"
-	"os"
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz"
 )
 
-func TestFizzBuzz(t *testing.T) {
+func TestFizzBuzzFilter(t *testing.T) {
 	t.Parallel()
 
 	testCases := []struct {
@@ -29,40 +27,14 @@ func TestFizzBuzz(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			got := gofizbuzz.FizzBuzz(tc.n)
+			got := gofizbuzz.FizzBuzzFilter(tc.n)
 			assertEquals(t, tc.want, got)
 		})
 	}
 }
 
-func BenchmarkFizzBuzz(b *testing.B) {
-	defer quiet()()
-
+func BenchmarkFizzBuzzFilter(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		gofizbuzz.FizzBuzz(n)
-	}
-}
-
-func quiet() func() {
-	null, _ := os.Open(os.DevNull)
-	stdOut := os.Stdout
-	stdErr := os.Stderr
-	os.Stdout = null
-	os.Stderr = null
-	log.SetOutput(null)
-
-	return func() {
-		defer null.Close()
-		os.Stdout = stdOut
-		os.Stderr = stdErr
-		log.SetOutput(os.Stderr)
-	}
-}
-
-func assertEquals(t *testing.T, want, got string) {
-	t.Helper()
-
-	if want != got {
-		t.Fatalf("want %q, got %q", want, got)
+		gofizbuzz.FizzBuzzFilter(n)
 	}
 }
