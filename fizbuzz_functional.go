@@ -2,38 +2,34 @@ package gofizbuzz
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/screwyprof/gofizzbuzz/monoid"
-	"github.com/screwyprof/gofizzbuzz/option"
 )
 
+// FizzBuzzFunctional
+//
+// https://web.archive.org/web/20130511210903/http://dave.fayr.am/posts/2012-10-4-finding-fizzbuzz.html
+// https://medium.com/@iopguy/fizzbuzz-can-finally-be-implemented-in-stable-rust-87649a882f2d
 func FizzBuzzFunctional(n int) string {
-	fizzFilter := func(n int) func() bool {
-		return func() bool {
-			return n%3 == 0
-		}
+	fizzFilter := func() bool {
+		return n%3 == 0
 	}
 
-	buzzFilter := func(n int) func() bool {
-		return func() bool {
-			return n%5 == 0
-		}
+	buzzFilter := func() bool {
+		return n%5 == 0
 	}
 
-	fizzOp := option.NewStringIf(fizzFilter(n), "Fizz")
-	buzzOp := option.NewStringIf(buzzFilter(n), "Buzz")
+	m := monoid.NewEmptyString().
+		AppendIf(fizzFilter, "Fizz").
+		AppendIf(buzzFilter, "Buzz")
 
-	m := OptionToStringMonoid(fizzOp).
-		Append(OptionToStringMonoid(buzzOp))
+	return FromMaybe(n, m)
+}
 
-	if m.String() == "" {
+func FromMaybe(n int, m monoid.String) string {
+	if m == m.Empty() {
 		return strconv.Itoa(n)
 	}
 
-	return strings.TrimSpace(m.String())
-}
-
-func OptionToStringMonoid(op option.String) monoid.OptionString {
-	return monoid.NewOptionString(op)
+	return m.String()
 }

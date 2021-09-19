@@ -17,6 +17,8 @@ func NoneString() String {
 // Option X = *X
 // None = nil
 // Some x = &x
+//
+// see https://github.com/leighmcculloch/go-optional/blob/master/string_generated.go
 type String struct {
 	str *string
 }
