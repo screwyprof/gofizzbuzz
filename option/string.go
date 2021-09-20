@@ -1,7 +1,5 @@
 package option
 
-var NilString *string
-
 // SomeString wraps the s into a String.
 func SomeString(s string) String {
 	return String{&s}
@@ -23,7 +21,7 @@ type String struct {
 	str *string
 }
 
-func NewString(s *string) String {
+func FromStringPtr(s *string) String {
 	if s == nil {
 		return NoneString()
 	}
@@ -31,12 +29,15 @@ func NewString(s *string) String {
 	return SomeString(*s)
 }
 
-func NewStringIf(fn func() bool, s string) String {
-	if fn() {
-		return SomeString(s)
+func (s String) Append(other String) String {
+	switch {
+	case s == NoneString():
+		return other
+	case other == NoneString():
+		return s
+	default:
+		return SomeString(s.UnwrapOrDefault() + other.UnwrapOrDefault())
 	}
-
-	return NoneString()
 }
 
 func (s String) UnwrapOrDefault() string {

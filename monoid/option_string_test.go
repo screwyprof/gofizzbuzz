@@ -5,7 +5,6 @@ import (
 
 	"github.com/screwyprof/gofizzbuzz/monoid"
 	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
-	"github.com/screwyprof/gofizzbuzz/option"
 )
 
 func TestOptionString(t *testing.T) {
@@ -17,7 +16,7 @@ func TestOptionString(t *testing.T) {
 	t.Run("it has valid identity", func(t *testing.T) {
 		t.Parallel()
 
-		m := monoid.NewOptionString(option.NewString(monoidtest.StrPtr("test")))
+		m := monoid.SomeString("test")
 
 		// There exists an element e in S such that for every element a in S,
 		// the equations e • a = a and a • e = a hold.
@@ -28,9 +27,9 @@ func TestOptionString(t *testing.T) {
 	t.Run("it has valid associativity", func(t *testing.T) {
 		t.Parallel()
 
-		a := monoid.NewOptionString(option.NewString(monoidtest.StrPtr("foo")))
-		b := monoid.NewOptionString(option.NewString(monoidtest.StrPtr("bar")))
-		c := monoid.NewOptionString(option.NewString(option.NilString))
+		a := monoid.SomeString("foo")
+		b := monoid.SomeString("bar")
+		c := monoid.NoneString()
 
 		// For all a, b and c in S, the equation (a • b) • c = a • (b • c) holds.
 		monoidtest.AssertEqual(t, a.Append(b).Append(c), a.Append(b.Append(c)))

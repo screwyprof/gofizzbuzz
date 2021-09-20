@@ -9,10 +9,6 @@ func NewString(s string) String {
 	return String(s)
 }
 
-func NewEmptyString() String {
-	return ""
-}
-
 func (m String) Empty() String {
 	return ""
 }
@@ -21,14 +17,22 @@ func (m String) Append(other String) String {
 	return m + other
 }
 
-func (m String) AppendIf(fn func() bool, other String) String {
+func (m String) Filtered(fn func() bool) String {
 	if fn() {
-		return m.Append(other)
+		return m
 	}
 
-	return m
+	return ""
 }
 
-func (m String) String() string {
+func (m String) Unwrap() string {
+	return string(m)
+}
+
+func (m String) UnwrapOr(s string) string {
+	if m == "" {
+		return s
+	}
+
 	return string(m)
 }

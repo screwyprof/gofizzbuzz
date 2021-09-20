@@ -36,5 +36,5 @@ func FizzBuzzFilter(n int) string {
 		return strconv.Itoa(n)
 	}
 
-	return res.String()
+	return res.Unwrap()
 }

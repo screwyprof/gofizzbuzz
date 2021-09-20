@@ -83,27 +83,3 @@ func (p *Pipeline) mapFn(ctx context.Context, fn MapFn, in <-chan interface{}) <
 
 	return out
 }
-
-//func (p *Pipeline) collect(ctx context.Context, num uint64, in <-chan interface{}) []interface{} {
-//	p.wg.Add(1)
-//
-//	result := make([]interface{}, num)
-//
-//	go func() {
-//		defer p.wg.Done()
-//
-//		var i int
-//
-//		for v := range in {
-//			select {
-//			case <-ctx.Done():
-//				return
-//			default:
-//				result[i] = v
-//				i++
-//			}
-//		}
-//	}()
-//
-//	return result
-//}
