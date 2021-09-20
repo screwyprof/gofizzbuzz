@@ -1,10 +1,10 @@
 package monoid_test
 
 import (
-	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz/monoid"
+	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 )
 
 func TestString(t *testing.T) {
