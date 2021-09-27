@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/screwyprof/gofizzbuzz"
+	gofizbuzz "github.com/screwyprof/gofizzbuzz"
 )
 
 func TestFizzBuzz(t *testing.T) {
@@ -53,8 +53,10 @@ func quiet() func() {
 
 	return func() {
 		defer null.Close()
+
 		os.Stdout = stdOut
 		os.Stderr = stdErr
+
 		log.SetOutput(os.Stderr)
 	}
 }

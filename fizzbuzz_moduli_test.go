@@ -3,7 +3,7 @@ package gofizbuzz_test
 import (
 	"testing"
 
-	"github.com/screwyprof/gofizzbuzz"
+	gofizbuzz "github.com/screwyprof/gofizzbuzz"
 )
 
 func TestFizzBuzzModuli(t *testing.T) {

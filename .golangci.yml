@@ -1,0 +1,128 @@
+# https://golangci-lint.run/usage/configuration/#config-file
+run:
+  deadline: 20m
+
+  skip-dirs-use-default: true
+
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
+  timeout: 1m
+
+modules-download-mode: readonly
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - exhaustive
+    - funlen
+    #- gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - goimports
+    #- gomnd
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - noctx
+    - nolintlint
+    - rowserrcheck
+    - exportloopref
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+    - asciicheck
+    #- gochecknoglobals
+    - gocognit
+    - godot
+    #- godox
+    - goerr113
+    - nestif
+    - prealloc
+    - testpackage
+    - revive
+    - wsl
+    - cyclop
+    - durationcheck
+    - errorlint
+    - exportloopref
+    #- forbidigo
+    #- exhaustivestruct
+    - gci
+    - gofumpt
+    - goheader
+    - gomodguard
+    - ifshort
+    - makezero
+    - nlreturn
+    - paralleltest
+    - predeclared
+    - sqlclosecheck
+    - thelper
+    - tparallel
+    - wrapcheck
+    - forcetypeassert
+    - gomoddirectives
+    - importas
+    - nilerr
+    - tagliatelle
+    - wastedassign
+issues:
+  # Show only new issues created after git revision `REV`
+  new-from-rev: master
+
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - funlen
+        - gosec
+output:
+  sort-results: true
+
+linters-settings:
+  golint:
+    min-confidence: 0
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gofmt:
+    auto-fix: false
+  govet:
+    check-shadowing: true
+  gocyclo:
+    min-complexity: 10
+  gci:
+    # put imports beginning with prefix after 3rd-party packages;
+    # only support one prefix
+    # if not set, use goimports.local-prefixes
+    local-prefixes: github.com/screwyprof/gofizzbuzz
+  wrapcheck:
+    # An array of strings that specify substrings of signatures to ignore.
+    # If this set, it will override the default set of ignored signatures.
+    # See https://github.com/tomarrell/wrapcheck#configuration for more information.
+    ignoreSigs:
+      - .Wrap(
+      - .SendJSON(
+      - .SendError(
+      - .SendYucatanError(
+      - .SendInternalServerError(
+      - .SendBadRequestError(
+      - json.Marshal(

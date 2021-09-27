@@ -5,7 +5,7 @@ package monoid
 // see by https://medium.com/@groveriffic/monoids-for-gophers-907175bb6165
 type String string
 
-func NewString(s string) String {
+func ForString(s string) String {
 	return String(s)
 }
 

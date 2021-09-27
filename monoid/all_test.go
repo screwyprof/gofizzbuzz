@@ -7,7 +7,7 @@ import (
 	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 )
 
-func TestString(t *testing.T) {
+func TestALl(t *testing.T) {
 	t.Parallel()
 
 	// A set S equipped with a binary operation S × S → S,
@@ -15,7 +15,7 @@ func TestString(t *testing.T) {
 	t.Run("it has valid identity", func(t *testing.T) {
 		t.Parallel()
 
-		m := monoid.ForString("TEST")
+		m := monoid.ForBool(true)
 
 		// There exists an element e in S such that for every element a in S,
 		// the equations e • a = a and a • e = a hold.
@@ -26,9 +26,9 @@ func TestString(t *testing.T) {
 	t.Run("it has valid associativity", func(t *testing.T) {
 		t.Parallel()
 
-		a := monoid.ForString("foo")
-		b := monoid.ForString("bar")
-		c := monoid.ForString("baz")
+		a := monoid.ForBool(true)
+		b := monoid.ForBool(false)
+		c := monoid.ForBool(true)
 
 		// For all a, b and c in S, the equation (a • b) • c = a • (b • c) holds.
 		monoidtest.AssertEqual(t, a.Append(b).Append(c), a.Append(b.Append(c)))

@@ -2,8 +2,6 @@ package gofizbuzz
 
 import (
 	"strconv"
-
-	"github.com/screwyprof/gofizzbuzz/monoid"
 )
 
 type fizzBuzzFilter = func(n int) bool
@@ -24,17 +22,17 @@ var fizzBuzzFilters = []fizzBuzzFilter{
 var FizzBuzzValues = []string{"Fizz", "Buzz"}
 
 func FizzBuzzFilter(n int) string {
-	res := monoid.NewString("")
+	var res string
 
 	for v, filter := range fizzBuzzFilters {
 		if filter(n) {
-			res = res.Append(monoid.NewString(FizzBuzzValues[v]))
+			res += FizzBuzzValues[v]
 		}
 	}
 
-	if res == res.Empty() {
+	if res == "" {
 		return strconv.Itoa(n)
 	}
 
-	return res.Unwrap()
+	return res
 }

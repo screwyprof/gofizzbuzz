@@ -1,6 +1,6 @@
 package gofizbuzz_test
 
-import "github.com/screwyprof/gofizzbuzz"
+import gofizbuzz "github.com/screwyprof/gofizzbuzz"
 
 func ExampleFizzBuzz() {
 	gofizbuzz.PrintFizzBuzz()
