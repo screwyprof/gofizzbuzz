@@ -20,6 +20,12 @@ func NoneString() OptionString {
 	}
 }
 
+// FromStringOption unwraps the optional string and returns its value if it is present.
+// It returns the default value s, if the optional is None.
+func FromStringOption(s string, o OptionString) string {
+	return o.UnwrapOr(s)
+}
+
 func (m OptionString) Empty() OptionString {
 	return NoneString()
 }

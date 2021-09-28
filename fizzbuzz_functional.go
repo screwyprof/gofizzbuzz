@@ -48,7 +48,7 @@ func FizzBuzzFunctional(n int) string {
 
 	rules := fold(filters, monoid.NewEmptyFizzBuzzRuleset())
 
-	return fromOption(strconv.Itoa(n), rules(n))
+	return monoid.FromStringOption(strconv.Itoa(n), rules(n))
 }
 
 // fold :: (Foldable t, Monoid m) => t m -> m
@@ -66,10 +66,6 @@ func fold(filters foldable.RuleFoldable, m monoid.FizzBuzzRuleset) monoid.FizzBu
 	mustOk(ok, "cannot cast result foldable.T to monoid.FizzBuzzRuleset")
 
 	return ruleSet
-}
-
-func fromOption(s string, o monoid.OptionString) string {
-	return o.UnwrapOr(s)
 }
 
 func mustOk(ok bool, msg string) {
