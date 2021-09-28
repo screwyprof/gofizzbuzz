@@ -28,8 +28,8 @@ func TestOptionString(t *testing.T) {
 		t.Parallel()
 
 		a := monoid.SomeString("foo")
-		b := monoid.SomeString("bar")
-		c := monoid.NoneString()
+		b := monoid.NoneString()
+		c := monoid.SomeString("bar")
 
 		// For all a, b and c in S, the equation (a • b) • c = a • (b • c) holds.
 		monoidtest.AssertEqual(t, a.Append(b).Append(c), a.Append(b.Append(c)))

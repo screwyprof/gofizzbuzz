@@ -1,4 +1,4 @@
-package gofizbuzz_test
+package gofizzbuzz_test
 
 import (
 	"testing"
@@ -12,6 +12,6 @@ func BenchmarkPrintFizzBuzz(b *testing.B) {
 	b.ResetTimer()
 
 	for n := 0; n < b.N; n++ {
-		gofizbuzz.PrintFizzBuzz()
+		gofizzbuzz.PrintFizzBuzz()
 	}
 }

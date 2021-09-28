@@ -1,4 +1,4 @@
-package gofizbuzz
+package gofizzbuzz
 
 import (
 	"context"

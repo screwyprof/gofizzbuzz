@@ -1,4 +1,4 @@
-package gofizbuzz
+package gofizzbuzz
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func PrintFizzBuzzFuncional() {
+func PrintFizzBuzzFunctional() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 

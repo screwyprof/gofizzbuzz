@@ -1,9 +1,9 @@
-package gofizbuzz_test
+package gofizzbuzz_test
 
 import (
 	"testing"
 
-	gofizbuzz "github.com/screwyprof/gofizzbuzz"
+	"github.com/screwyprof/gofizzbuzz"
 )
 
 func BenchmarkPrintFizzBuzzFunctional(b *testing.B) {
@@ -12,6 +12,6 @@ func BenchmarkPrintFizzBuzzFunctional(b *testing.B) {
 	b.ResetTimer()
 
 	for n := 0; n < b.N; n++ {
-		gofizbuzz.PrintFizzBuzzFuncional()
+		gofizzbuzz.PrintFizzBuzzFunctional()
 	}
 }

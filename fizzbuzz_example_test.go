@@ -1,9 +1,9 @@
-package gofizbuzz_test
+package gofizzbuzz_test
 
-import gofizbuzz "github.com/screwyprof/gofizzbuzz"
+import "github.com/screwyprof/gofizzbuzz"
 
 func ExampleFizzBuzz() {
-	gofizbuzz.PrintFizzBuzz()
+	gofizzbuzz.PrintFizzBuzz()
 
 	// output:
 	// 1
