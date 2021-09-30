@@ -1,6 +1,8 @@
 # This repo's root import path.
 PKG := github.com/screwyprof/gofizzbuzz
 
+GO_BIN = gotip
+
 ## DO NOT EDIT BELLOW THIS LINE
 GO_FILES = $(shell find . -name "*.go" | grep -v vendor | uniq)
 
@@ -12,8 +14,9 @@ all:  lint test ## build application, run linters and tests
 
 fmt: ## format code
 	@echo "$(OK_COLOR)==> Formatting$(NO_COLOR)"
-	@gofumpt -s -l -w $(GO_FILES)
-	@gci -w -local $(PKG) $(GO_FILES)
+	$(GO_BIN) fmt ./...
+	#@gofumpt -s -l -w $(GO_FILES)
+	##@gci -w -local $(PKG) $(GO_FILES)
 
 lint: ## run linters for current changes
 	@echo "$(OK_COLOR)==> Linting current changes$(NO_COLOR)"
@@ -25,7 +28,7 @@ lint-all: ## run linters
 
 test: ## run tests
 	@echo "$(OK_COLOR)==> Running tests$(NO_COLOR)"
-	go test -v -race -bench -benchmem -timeout=10s -count=1 ./...
+	$(GO_BIN) test -v -race -bench -benchmem -timeout=10s -count=1 ./...
 
 test-cover-txt: ## run tests with code coverage and show plain report in console
 	@echo "$(OK_COLOR)==> Running tests with coverage $(NO_COLOR)"

@@ -52,9 +52,6 @@ func TestFizzBuzzRuleset(t *testing.T) {
 		b := monoid.ForFizzBuzzPredicate(buzz, "Buzz")
 		c := monoid.ForFizzBuzzPredicate(bizz, "Bizz")
 
-		_, _, _ = a, b, c
-		_ = n
-
 		a.Append(b)(3)
 
 		// For all a, b and c in S, the equation (a • b) • c = a • (b • c) holds.
