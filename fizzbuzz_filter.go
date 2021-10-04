@@ -28,9 +28,9 @@ func FizzBuzzFilter(n int) string {
 		}
 	}
 
-	if res == "" {
-		return strconv.Itoa(n)
+	if res != "" {
+		return res
 	}
 
-	return res
+	return strconv.FormatInt(int64(n), 10)
 }

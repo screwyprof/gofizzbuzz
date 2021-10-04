@@ -1,4 +1,4 @@
-package gofizzbuzz
+package pipeline
 
 import (
 	"context"
@@ -13,7 +13,7 @@ type Pipeline struct {
 	wg         *sync.WaitGroup
 }
 
-func NewPipeline(fizzBuzzer FizzBuzzProcessorFn) *Pipeline {
+func NewFizzBuzz(fizzBuzzer FizzBuzzProcessorFn) *Pipeline {
 	var wg sync.WaitGroup
 
 	return &Pipeline{wg: &wg, fizzBuzzer: fizzBuzzer}

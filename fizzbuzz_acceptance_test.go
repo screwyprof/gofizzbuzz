@@ -1,8 +1,9 @@
 package gofizzbuzz_test
 
 import (
-	"github.com/screwyprof/gofizzbuzz/fbtest"
 	"testing"
+
+	"github.com/screwyprof/gofizzbuzz/fbtest"
 
 	"github.com/screwyprof/gofizzbuzz"
 )
@@ -17,6 +18,14 @@ func TestFizzBuzzAcceptance(t *testing.T) {
 		gofizzbuzz.FizzBuzzFunctional,
 	}
 
+	for _, fizzBuzzer := range fizzBuzzers {
+		assertFizzBuzz(t, fizzBuzzer)
+	}
+}
+
+func assertFizzBuzz(t *testing.T, fizzBuzzer func(n int) string) {
+	t.Helper()
+
 	testCases := []struct {
 		name string
 		n    int
@@ -30,16 +39,14 @@ func TestFizzBuzzAcceptance(t *testing.T) {
 		{name: "It returns 'FizzBuzz' given 15", n: 15, want: "FizzBuzz"},
 	}
 
-	for _, fizzBuzzer := range fizzBuzzers { //nolint:paralleltest
-		for _, tc := range testCases {
-			tc, fizzBuzzer := tc, fizzBuzzer
+	for _, tc := range testCases {
+		tc, fizzBuzzer := tc, fizzBuzzer
 
-			t.Run(fbtest.FuncName(fizzBuzzer)+" "+tc.name, func(t *testing.T) {
-				t.Parallel()
+		t.Run(fbtest.FuncName(fizzBuzzer)+" "+tc.name, func(t *testing.T) {
+			t.Parallel()
 
-				got := fizzBuzzer(tc.n)
-				fbtest.Equals(t, tc.want, got)
-			})
-		}
+			got := fizzBuzzer(tc.n)
+			fbtest.Equals(t, tc.want, got)
+		})
 	}
 }

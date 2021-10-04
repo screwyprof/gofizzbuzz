@@ -11,6 +11,6 @@ func FizzBuzz(n int) string {
 	case n%3 == 0:
 		return "Fizz"
 	default:
-		return strconv.Itoa(n)
+		return strconv.FormatInt(int64(n), 10)
 	}
 }

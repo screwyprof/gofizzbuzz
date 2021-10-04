@@ -39,7 +39,7 @@ func FizzBuzzFunctional(n int) string {
 
 	ruleSet := slice.Sum(rules, ruleMonoid)
 
-	return option.UnwrapOr(ruleSet(n), strconv.Itoa(n))
+	return option.UnwrapOr(ruleSet(n), strconv.FormatInt(int64(n), 10))
 }
 
 type FizzBuzzRule func(n int) option.Option[string]

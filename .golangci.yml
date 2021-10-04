@@ -114,15 +114,3 @@ linters-settings:
     # only support one prefix
     # if not set, use goimports.local-prefixes
     local-prefixes: github.com/screwyprof/gofizzbuzz
-  wrapcheck:
-    # An array of strings that specify substrings of signatures to ignore.
-    # If this set, it will override the default set of ignored signatures.
-    # See https://github.com/tomarrell/wrapcheck#configuration for more information.
-    ignoreSigs:
-      - .Wrap(
-      - .SendJSON(
-      - .SendError(
-      - .SendYucatanError(
-      - .SendInternalServerError(
-      - .SendBadRequestError(
-      - json.Marshal(

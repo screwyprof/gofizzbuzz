@@ -29,5 +29,5 @@ func FizzBuzzModuli(n int) string {
 		return res
 	}
 
-	return strconv.Itoa(n)
+	return strconv.FormatInt(int64(n), 10)
 }

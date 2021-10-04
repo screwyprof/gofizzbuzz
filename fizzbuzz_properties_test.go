@@ -13,22 +13,34 @@ import (
 )
 
 func TestFizzBuzzProperties(t *testing.T) {
+	t.Parallel()
+
+	fizzBuzzers := []func(n int) string{
+		gofizzbuzz.FizzBuzz,
+		gofizzbuzz.FizzBuzzFilter,
+		gofizzbuzz.FizzBuzzModuli,
+		gofizzbuzz.FizzBuzzFunctional,
+	}
+
+	for _, fizzBuzzer := range fizzBuzzers {
+		checkFizzBuzzProperties(t, fizzBuzzer)
+	}
+}
+
+func checkFizzBuzzProperties(t *testing.T, fizzBuzzer func(n int) string) {
 	mul3Fizz := func(i int) bool {
-		result := gofizzbuzz.FizzBuzz(i * 3)
-		t.Log(i*3, result)
+		result := fizzBuzzer(i * 3)
 		return strings.HasPrefix(result, "Fizz")
 	}
 
 	mul5Buzz := func(i int) bool {
-		result := gofizzbuzz.FizzBuzz(i * 5)
-		t.Log(i*5, result)
+		result := fizzBuzzer(i * 5)
 		return strings.HasSuffix(result, "Buzz")
 	}
 
 	restAreNums := func(i int) bool {
-		result := gofizzbuzz.FizzBuzz(i)
-		t.Log(i, result)
-		return result == strconv.Itoa(i)
+		result := fizzBuzzer(i)
+		return result == strconv.FormatInt(int64(i), 10)
 	}
 
 	t.Run("it should start with Fizz for all multiples of 3", func(t *testing.T) {

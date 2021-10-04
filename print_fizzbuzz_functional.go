@@ -7,6 +7,6 @@ import (
 )
 
 func PrintFizzBuzzFunctional() {
-	it := iterator.Map(iterator.Range[int](1, 100), FizzBuzzFunctional)
+	it := iterator.Map(iterator.Range[int](1, 15), FizzBuzzFunctional)
 	iterator.ForEach(it, func(s string) { fmt.Println(s) })
 }
