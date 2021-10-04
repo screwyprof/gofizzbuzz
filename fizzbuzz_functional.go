@@ -8,6 +8,25 @@ import (
 	"github.com/genkami/dogs/types/slice"
 )
 
+var (
+	fizz = func(n int) bool {
+		return n%3 == 0
+	}
+
+	buzz = func(n int) bool {
+		return n%5 == 0
+	}
+)
+
+var (
+	rules = slice.Slice[FizzBuzzRule]{
+		Rule(fizz, "Fizz"),
+		Rule(buzz, "Buzz"),
+	}
+
+	ruleSet = slice.Sum(rules, NewRuleSetMonoid())
+)
+
 // FizzBuzzFunctional
 //
 // https://web.archive.org/web/20130511210903/http://dave.fayr.am/posts/2012-10-4-finding-fizzbuzz.html
@@ -21,24 +40,6 @@ import (
 //	  where
 //		 ruleSet = fold filters
 func FizzBuzzFunctional(n int) string {
-	fizz := func(n int) bool {
-		return n%3 == 0
-	}
-
-	buzz := func(n int) bool {
-		return n%5 == 0
-	}
-
-	rules := slice.Slice[FizzBuzzRule]{
-		Rule(fizz, "Fizz"),
-		Rule(buzz, "Buzz"),
-	}
-
-	ruleMonoid := NewRuleSetMonoid()
-	slice.Sum(rules, ruleMonoid)
-
-	ruleSet := slice.Sum(rules, ruleMonoid)
-
 	return option.UnwrapOr(ruleSet(n), strconv.FormatInt(int64(n), 10))
 }
 
