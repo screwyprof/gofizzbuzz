@@ -1,10 +1,11 @@
 package monoid_test
 
 import (
+	"github.com/genkami/dogs/types/option"
+	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz/monoid"
-	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 )
 
 func TestFizzBuzzRuleset(t *testing.T) {
@@ -21,20 +22,26 @@ func TestFizzBuzzRuleset(t *testing.T) {
 			return n%3 == 0
 		}
 
-		m := monoid.ForFizzBuzzPredicate(fizz, "Fizz")
+		ruleMonoid := monoid.NewRuleSetMonoid()
+		fizzRule := monoid.Rule(fizz, "Fizz")
 
 		// There exists an element e in S such that for every element a in S,
 		// the equations e • a = a and a • e = a hold.
+		t.Logf("%s = %s",
+			option.UnwrapOr[string](ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n), ""),
+			option.UnwrapOr[string](ruleMonoid.Combine(fizzRule, ruleMonoid.Empty())(n), ""),
+		)
 
-		// t.Logf("%v=%v", m(n).UnwrapOr(""), m.Append(m.Empty())(n).UnwrapOr(""))
-		// t.Logf("%v=%v", m.Empty().Append(m)(n).UnwrapOr(""), m.Append(m.Empty())(n).UnwrapOr(""))
-		monoidtest.AssertEqual(t, m(n), m.Append(m.Empty())(n))
-		monoidtest.AssertEqual(t, m.Empty().Append(m)(n), m.Append(m.Empty())(n))
+		monoidtest.AssertEqual(t, fizzRule(n), ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n))
+		monoidtest.AssertEqual(t,
+			ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n),
+			ruleMonoid.Combine(fizzRule, ruleMonoid.Empty())(n),
+		)
 	})
 
 	t.Run("it has valid associativity", func(t *testing.T) {
 		t.Parallel()
-		n := 3
+		n := 5
 
 		fizz := func(n int) bool {
 			return n%3 == 0
@@ -48,15 +55,21 @@ func TestFizzBuzzRuleset(t *testing.T) {
 			return n%7 == 0
 		}
 
-		a := monoid.ForFizzBuzzPredicate(fizz, "Fizz")
-		b := monoid.ForFizzBuzzPredicate(buzz, "Buzz")
-		c := monoid.ForFizzBuzzPredicate(bizz, "Bizz")
+		ruleMonoid := monoid.NewRuleSetMonoid()
 
-		a.Append(b)(3)
+		a := monoid.Rule(fizz, "Fizz")
+		b := monoid.Rule(buzz, "Buzz")
+		c := monoid.Rule(bizz, "Bizz")
 
 		// For all a, b and c in S, the equation (a • b) • c = a • (b • c) holds.
+		t.Logf("%s = %s",
+			option.UnwrapOr[string](ruleMonoid.Combine(ruleMonoid.Combine(a, b), c)(n), ""),
+			option.UnwrapOr[string](ruleMonoid.Combine(a, ruleMonoid.Combine(b, c))(n), ""),
+		)
 
-		// t.Logf("%v=%v", a.Append(b).Append(c)(n).UnwrapOr(""), a.Append(b.Append(c))(n).UnwrapOr(""))
-		monoidtest.AssertEqual(t, a.Append(b).Append(c)(n), a.Append(b.Append(c))(n))
+		monoidtest.AssertEqual(t,
+			ruleMonoid.Combine(ruleMonoid.Combine(a, b), c)(n),
+			ruleMonoid.Combine(a, ruleMonoid.Combine(b, c))(n),
+		)
 	})
 }

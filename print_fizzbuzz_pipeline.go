@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func PrintFizzBuzzFunctional() {
+func PrintFizzBuzzPipeline() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
@@ -32,7 +32,7 @@ func counter() func() interface{} {
 
 func fizzbuzz() func(in interface{}) interface{} {
 	return func(in interface{}) interface{} {
-		return FizzBuzzFunctional(int(in.(uint64)))
+		return FizzBuzz(int(in.(uint64)))
 	}
 }
 

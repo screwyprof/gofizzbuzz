@@ -3,8 +3,9 @@ package gofizzbuzz
 import (
 	"strconv"
 
-	"github.com/screwyprof/gofizzbuzz/foldable"
-	"github.com/screwyprof/gofizzbuzz/monoid"
+	"github.com/genkami/dogs/classes/algebra"
+	"github.com/genkami/dogs/types/option"
+	"github.com/genkami/dogs/types/slice"
 )
 
 // FizzBuzzFunctional
@@ -20,19 +21,6 @@ import (
 //	  where
 //		 ruleSet = fold filters
 func FizzBuzzFunctional(n int) string {
-	// fizzbuzz i = fromMaybe (show i) $ mappend ["fizz" | i `rem` 3 == 0]
-	//											["buzz" | i `rem` 5 == 0]
-
-	//m := monoid.ForString("").
-	//	Append(monoid.ForString("Fizz").Filtered(func() bool {
-	//		return n%3 == 0
-	//	})).
-	//	Append(monoid.ForString("Buzz").Filtered(func() bool {
-	//		return n%5 == 0
-	//	}))
-	//
-	//return m.UnwrapOr(strconv.Itoa(n))
-
 	fizz := func(n int) bool {
 		return n%3 == 0
 	}
@@ -41,35 +29,48 @@ func FizzBuzzFunctional(n int) string {
 		return n%5 == 0
 	}
 
-	filters := foldable.RuleFoldable{
-		monoid.ForFizzBuzzPredicate(fizz, "Fizz"),
-		monoid.ForFizzBuzzPredicate(buzz, "Buzz"),
+	rules := slice.Slice[FizzBuzzRule]{
+		Rule(fizz, "Fizz"),
+		Rule(buzz, "Buzz"),
 	}
 
-	rules := fold(filters, monoid.NewEmptyFizzBuzzRuleset())
+	ruleMonoid := NewRuleSetMonoid()
+	slice.Sum(rules, ruleMonoid)
 
-	return monoid.FromStringOption(strconv.Itoa(n), rules(n))
+	ruleSet := slice.Sum(rules, ruleMonoid)
+
+	return option.UnwrapOr(ruleSet(n), strconv.Itoa(n))
 }
 
-// fold :: (Foldable t, Monoid m) => t m -> m.
-func fold(filters foldable.RuleFoldable, m monoid.FizzBuzzRuleset) monoid.FizzBuzzRuleset {
-	rules := filters.Foldl(filters.Init(), func(result foldable.T, next foldable.T) foldable.T {
-		rule, ok := next.(func(int) monoid.OptionString)
-		mustOk(ok, "cannot cast result foldable.T to func(int) monoid.OptionString")
+type FizzBuzzRule func(n int) option.Option[string]
 
-		m = m.Append(rule)
+func Rule(p func(n int) bool, word string) FizzBuzzRule {
+	return func(n int) option.Option[string] {
+		if p(n) {
+			return option.Some(word)
+		}
 
-		return m
-	})
-
-	ruleSet, ok := rules.(monoid.FizzBuzzRuleset)
-	mustOk(ok, "cannot cast result foldable.T to monoid.FizzBuzzRuleset")
-
-	return ruleSet
-}
-
-func mustOk(ok bool, msg string) {
-	if !ok {
-		panic(msg)
+		return option.None[string]()
 	}
+}
+
+func NewRuleSetMonoid() algebra.Monoid[FizzBuzzRule] {
+	optionMonoid := option.DeriveMonoid[string](algebra.DeriveAdditiveSemigroup[string]())
+
+	ruleMonoid := &algebra.DefaultMonoid[FizzBuzzRule]{
+		Semigroup: &algebra.DefaultSemigroup[FizzBuzzRule]{
+			CombineImpl: func(a, b FizzBuzzRule) FizzBuzzRule {
+				return func(n int) option.Option[string] {
+					return optionMonoid.Combine(a(n), b(n))
+				}
+			},
+		},
+		EmptyImpl: func() FizzBuzzRule {
+			return func(_ int) option.Option[string] {
+				return option.None[string]()
+			}
+		},
+	}
+
+	return ruleMonoid
 }

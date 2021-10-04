@@ -1,34 +1,39 @@
 package monoid
 
-type (
-	FizzBuzzPredicate func(n int) bool
-	FizzBuzzRuleset   func(n int) OptionString
+import (
+	"github.com/genkami/dogs/classes/algebra"
+	"github.com/genkami/dogs/types/option"
 )
 
-func NewEmptyFizzBuzzRuleset() FizzBuzzRuleset {
-	return func(n int) OptionString {
-		return NoneString()
-	}
-}
+type FizzBuzzRule func(n int) option.Option[string]
 
-func ForFizzBuzzPredicate(p FizzBuzzPredicate, word string) FizzBuzzRuleset {
-	return func(n int) OptionString {
+func Rule(p func(n int) bool, word string) FizzBuzzRule {
+	return func(n int) option.Option[string] {
 		if p(n) {
-			return SomeString(word)
+			return option.Some(word)
 		}
 
-		return NoneString()
+		return option.None[string]()
 	}
 }
 
-func (m FizzBuzzRuleset) Empty() FizzBuzzRuleset {
-	return func(n int) OptionString {
-		return NoneString()
-	}
-}
+func NewRuleSetMonoid() algebra.Monoid[FizzBuzzRule] {
+	optionMonoid := option.DeriveMonoid[string](algebra.DeriveAdditiveSemigroup[string]())
 
-func (m FizzBuzzRuleset) Append(other FizzBuzzRuleset) FizzBuzzRuleset {
-	return func(n int) OptionString {
-		return m(n).Append(other(n))
+	ruleMonoid := &algebra.DefaultMonoid[FizzBuzzRule]{
+		Semigroup: &algebra.DefaultSemigroup[FizzBuzzRule]{
+			CombineImpl: func(a, b FizzBuzzRule) FizzBuzzRule {
+				return func(n int) option.Option[string] {
+					return optionMonoid.Combine(a(n), b(n))
+				}
+			},
+		},
+		EmptyImpl: func() FizzBuzzRule {
+			return func(_ int) option.Option[string] {
+				return option.None[string]()
+			}
+		},
 	}
+
+	return ruleMonoid
 }
