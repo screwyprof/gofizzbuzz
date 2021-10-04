@@ -11,6 +11,10 @@ var filters = []struct {
 	div  uint64
 }{
 	{
+		word: "FizzBuzz",
+		div:  fastdiv.M15,
+	},
+	{
 		word: "Fizz",
 		div:  fastdiv.M3,
 	},
@@ -21,16 +25,10 @@ var filters = []struct {
 }
 
 func FizzBuzzModuli(n int) string {
-	var res string
-
 	for _, f := range filters {
 		if fastdiv.IsDivisible(uint64(n), f.div) {
-			res += f.word
+			return f.word
 		}
-	}
-
-	if res != "" {
-		return res
 	}
 
 	return strconv.FormatInt(int64(n), 10)

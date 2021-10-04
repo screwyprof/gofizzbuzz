@@ -1,8 +1,9 @@
 package gofizzbuzz
 
 import (
-	"github.com/screwyprof/gofizzbuzz/fastdiv"
 	"strconv"
+
+	"github.com/screwyprof/gofizzbuzz/fastdiv"
 )
 
 func FizzBuzz(n int) string {

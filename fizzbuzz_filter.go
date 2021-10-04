@@ -6,7 +6,11 @@ import (
 	"github.com/screwyprof/gofizzbuzz/fastdiv"
 )
 
-type fizzBuzzFilter = func(n int) bool
+type fizzBuzzPredicate = func(n int) bool
+
+var fizzBuzzFilter = func(n int) bool {
+	return fastdiv.IsDivisible(uint64(n), fastdiv.M15)
+}
 
 var fizzFilter = func(n int) bool {
 	return fastdiv.IsDivisible(uint64(n), fastdiv.M3)
@@ -16,24 +20,19 @@ var buzzFilter = func(n int) bool {
 	return fastdiv.IsDivisible(uint64(n), fastdiv.M5)
 }
 
-var fizzBuzzFilters = []fizzBuzzFilter{
+var fizzBuzzFilters = []fizzBuzzPredicate{
+	fizzBuzzFilter,
 	fizzFilter,
 	buzzFilter,
 }
 
-var FizzBuzzValues = []string{"Fizz", "Buzz"}
+var FizzBuzzValues = []string{"FizzBuzz", "Fizz", "Buzz"}
 
 func FizzBuzzFilter(n int) string {
-	var res string
-
 	for v, filter := range fizzBuzzFilters {
 		if filter(n) {
-			res += FizzBuzzValues[v]
+			return FizzBuzzValues[v]
 		}
-	}
-
-	if res != "" {
-		return res
 	}
 
 	return strconv.FormatInt(int64(n), 10)
