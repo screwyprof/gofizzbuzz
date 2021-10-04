@@ -1,15 +1,19 @@
 package gofizzbuzz
 
-import "strconv"
+import (
+	"strconv"
+
+	"github.com/screwyprof/gofizzbuzz/fastdiv"
+)
 
 type fizzBuzzFilter = func(n int) bool
 
 var fizzFilter = func(n int) bool {
-	return n%3 == 0
+	return fastdiv.IsDivisible(uint64(n), fastdiv.M3)
 }
 
 var buzzFilter = func(n int) bool {
-	return n%5 == 0
+	return fastdiv.IsDivisible(uint64(n), fastdiv.M5)
 }
 
 var fizzBuzzFilters = []fizzBuzzFilter{

@@ -1,18 +1,22 @@
 package gofizzbuzz
 
-import "strconv"
+import (
+	"strconv"
+
+	"github.com/screwyprof/gofizzbuzz/fastdiv"
+)
 
 var filters = []struct {
-	div  int
 	word string
+	div  uint64
 }{
 	{
-		div:  3,
 		word: "Fizz",
+		div:  fastdiv.M3,
 	},
 	{
-		div:  5,
 		word: "Buzz",
+		div:  fastdiv.M5,
 	},
 }
 
@@ -20,7 +24,7 @@ func FizzBuzzModuli(n int) string {
 	var res string
 
 	for _, f := range filters {
-		if n%f.div == 0 {
+		if fastdiv.IsDivisible(uint64(n), f.div) {
 			res += f.word
 		}
 	}

@@ -6,15 +6,17 @@ import (
 	"github.com/genkami/dogs/classes/algebra"
 	"github.com/genkami/dogs/types/option"
 	"github.com/genkami/dogs/types/slice"
+
+	"github.com/screwyprof/gofizzbuzz/fastdiv"
 )
 
 var (
 	fizz = func(n int) bool {
-		return n%3 == 0
+		return fastdiv.IsDivisible(uint64(n), fastdiv.M3)
 	}
 
 	buzz = func(n int) bool {
-		return n%5 == 0
+		return fastdiv.IsDivisible(uint64(n), fastdiv.M5)
 	}
 )
 
