@@ -51,7 +51,7 @@ func FizzBuzzFunctional(n int) string {
 	return monoid.FromStringOption(strconv.Itoa(n), rules(n))
 }
 
-// fold :: (Foldable t, Monoid m) => t m -> m
+// fold :: (Foldable t, Monoid m) => t m -> m.
 func fold(filters foldable.RuleFoldable, m monoid.FizzBuzzRuleset) monoid.FizzBuzzRuleset {
 	rules := filters.Foldl(filters.Init(), func(result foldable.T, next foldable.T) foldable.T {
 		rule, ok := next.(func(int) monoid.OptionString)

@@ -1,18 +1,15 @@
 package monoid
 
-import (
-	"github.com/screwyprof/gofizzbuzz/iterator"
-)
-
 // Semigroup is a set of type `T` and its associative binary operation `Combine(T, T) T`
-type Semigroup[T any] struct {
-	Combine func(T, T) T
-}
+//type Semigroup[T any] interface {
+//	Append(T, T) T
+//}
 
-// SumWithInit sums up `init` and all values in `it`.
-func (s Semigroup[T]) SumWithInit(init T, it iterator.Iterator[T]) T {
-	return iterator.Fold[T, T](init, it, s.Combine)
-}
+//// Monoid is a Semigroup with identity.
+//type Monoid[T any] interface {
+//	Empty() T
+//	Append(other T) T
+//}
 
 //class Monoid a where
 //mempty  :: a
@@ -21,20 +18,79 @@ func (s Semigroup[T]) SumWithInit(init T, it iterator.Iterator[T]) T {
 //-- ^ An associative operation
 //mconcat :: [a] -> a
 
-type Monoid[T any] struct {
-	Item     T
-	Identity func() T
-	Semigroup[T]
-}
+//type StringMonoidBuilder[T any] struct {
+//	Identity func() T
+//	Combine func (T, T) T
+//}
+//
+//func (b StringMonoidBuilder[T]) Build() GenericMonoid[T] {
+//	return GenericMonoid[T]{
+//		identity: b.Identity(),
+//		combine: b.Combine,
+//	}
+//}
+//
+//type GenericMonoid[T any] struct {
+//	identity T
+//	combine func (T, T) T
+//}
+//
+//func (m GenericMonoid[T]) Empty() Monoid[T] {
+//	return GenericMonoid[T]{
+//		identity: m.identity,
+//		combine: m.combine,
+//	}
+//}
+//
+//func (m GenericMonoid[T]) Append(other Monoid[T]) Monoid[T] {
+//	 //self := GenericMonoid[T]{
+//		//identity: m.identity,
+//		//combine: m.combine,
+//	 //}
+//	 //
+//	 //self.
+//	//return m.combine(m, other)
+//}
 
-func (m Monoid[T]) Append(a, b T) T {
-	return m.Combine(a, b)
-}
+//func (m GenericMonoid[T]) Unwrap() T {
+//	return m.Item
+//}
 
-func (m Monoid[T]) Empty() T {
-	return m.Identity()
-}
+//type GenericMonoid[T any] struct{
+//	empty func() T
+//}
+//
+//func (m GenericMonoid[T]) Empty() T {
+//	return m.empty()
+//}
+//
+//func (m GenericMonoid[T]) Append(other T) T {
+//	return m.item + other
+//}
 
-func (m Monoid[T]) Unwrap() T {
-	return m.Item
-}
+//func ForNewString(s string) Monoid[GenericStringMonoid[string]] {
+//	return GenericStringMonoid[string]{item: s}
+//}
+
+//type PredicatFn[Cond any] func(Cond) bool
+//
+//type Predicate[Cond any] interface {
+//	func(Cond) bool
+//}
+//
+//// DerivePredicateSemigroup derives Semigroup using `+` operator.
+//func DerivePredicateSemigroup[Cond any, T Predicate[Cond]]() algebra.Semigroup[T] {
+//	return predicateSemigroup[Cond,T]{}
+//}
+//
+//type predicateSemigroup[Cond any, T Predicate[Cond]] struct{}
+//
+//func (predicateSemigroup[Cond,T]) Combine(x, y T) T {
+//	return func(c Cond) bool {
+//		fmt.Printf("c: %v\n", c)
+//		fmt.Printf("x(c): %v\n", x(c))
+//		fmt.Printf("y(c): %v\n", y(c))
+//
+//		return x(c) && y(c)
+//	}
+//}
