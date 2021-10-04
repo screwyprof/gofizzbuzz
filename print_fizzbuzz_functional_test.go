@@ -4,10 +4,11 @@ import (
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz"
+	"github.com/screwyprof/gofizzbuzz/fbtest"
 )
 
 func BenchmarkPrintFizzBuzzFunctional(b *testing.B) {
-	defer quiet()()
+	defer fbtest.Quiet()()
 
 	b.ResetTimer()
 

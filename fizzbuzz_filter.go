@@ -1,8 +1,6 @@
 package gofizzbuzz
 
-import (
-	"strconv"
-)
+import "strconv"
 
 type fizzBuzzFilter = func(n int) bool
 

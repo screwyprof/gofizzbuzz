@@ -1,8 +1,6 @@
 package gofizzbuzz
 
-import (
-	"strconv"
-)
+import "strconv"
 
 func FizzBuzz(n int) string {
 	switch {

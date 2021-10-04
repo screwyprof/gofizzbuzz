@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz"
+	"github.com/screwyprof/gofizzbuzz/fbtest"
 )
 
 func BenchmarkFizzBuzz(b *testing.B) {
@@ -15,7 +16,7 @@ func BenchmarkFizzBuzz(b *testing.B) {
 	}
 
 	for _, fizzBuzzer := range fizzBuzzers {
-		b.Run(funcName(fizzBuzzer), func(b *testing.B) {
+		b.Run(fbtest.FuncName(fizzBuzzer), func(b *testing.B) {
 			for n := 0; n < b.N; n++ {
 				fizzBuzzer(n)
 			}

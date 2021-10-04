@@ -1,10 +1,11 @@
 package monoid_test
 
 import (
-	"github.com/genkami/dogs/types/option"
-	"github.com/screwyprof/gofizzbuzz/monoid/monoidtest"
 	"testing"
 
+	"github.com/genkami/dogs/types/option"
+
+	"github.com/screwyprof/gofizzbuzz/fbtest"
 	"github.com/screwyprof/gofizzbuzz/monoid"
 )
 
@@ -32,8 +33,8 @@ func TestFizzBuzzRuleset(t *testing.T) {
 			option.UnwrapOr[string](ruleMonoid.Combine(fizzRule, ruleMonoid.Empty())(n), ""),
 		)
 
-		monoidtest.AssertEqual(t, fizzRule(n), ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n))
-		monoidtest.AssertEqual(t,
+		fbtest.Equals(t, fizzRule(n), ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n))
+		fbtest.Equals(t,
 			ruleMonoid.Combine(ruleMonoid.Empty(), fizzRule)(n),
 			ruleMonoid.Combine(fizzRule, ruleMonoid.Empty())(n),
 		)
@@ -67,7 +68,7 @@ func TestFizzBuzzRuleset(t *testing.T) {
 			option.UnwrapOr[string](ruleMonoid.Combine(a, ruleMonoid.Combine(b, c))(n), ""),
 		)
 
-		monoidtest.AssertEqual(t,
+		fbtest.Equals(t,
 			ruleMonoid.Combine(ruleMonoid.Combine(a, b), c)(n),
 			ruleMonoid.Combine(a, ruleMonoid.Combine(b, c))(n),
 		)

@@ -1,4 +1,4 @@
-package gofizzbuzz_test
+package fbtest
 
 import (
 	"log"
@@ -10,7 +10,15 @@ import (
 	"testing"
 )
 
-func quiet() func() {
+func Equals(t *testing.T, want, got interface{}) {
+	t.Helper()
+
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("want %q, got %q", want, got)
+	}
+}
+
+func Quiet() func() {
 	null, _ := os.Open(os.DevNull)
 	stdOut := os.Stdout
 	stdErr := os.Stderr
@@ -28,15 +36,7 @@ func quiet() func() {
 	}
 }
 
-func assertEquals(t *testing.T, want, got string) {
-	t.Helper()
-
-	if want != got {
-		t.Fatalf("want %q, got %q", want, got)
-	}
-}
-
-func funcName(i interface{}) string {
+func FuncName(i interface{}) string {
 	funcPkgPath := runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 	nameEnd := filepath.Ext(funcPkgPath) // .foo
 

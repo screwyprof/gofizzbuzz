@@ -1,6 +1,7 @@
 package gofizzbuzz_test
 
 import (
+	"github.com/screwyprof/gofizzbuzz/fbtest"
 	"testing"
 
 	"github.com/screwyprof/gofizzbuzz"
@@ -33,11 +34,11 @@ func TestFizzBuzzAcceptance(t *testing.T) {
 		for _, tc := range testCases {
 			tc, fizzBuzzer := tc, fizzBuzzer
 
-			t.Run(funcName(fizzBuzzer)+" "+tc.name, func(t *testing.T) {
+			t.Run(fbtest.FuncName(fizzBuzzer)+" "+tc.name, func(t *testing.T) {
 				t.Parallel()
 
 				got := fizzBuzzer(tc.n)
-				assertEquals(t, tc.want, got)
+				fbtest.Equals(t, tc.want, got)
 			})
 		}
 	}
